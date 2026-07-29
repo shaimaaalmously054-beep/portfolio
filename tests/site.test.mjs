@@ -11,7 +11,7 @@ test("contains essential identity, navigation, and contact content", () => {
   assert.match(html, /mailto:shaimaaalmously054@gmail\.com/);
   assert.match(html, /tel:\+963981197689/);
   assert.match(html, /\+963 981 197 689/);
-  assert.match(html, /href="\.\/cv\.pdf"/);
+  assert.match(html, /href="\.\/public\/cv\.pdf"/);
 });
 
 test("presents the recruiter-critical sections", () => {
@@ -42,4 +42,7 @@ test("uses only verified project links from the supplied CV", () => {
 
 test("production build includes the bundled CV", async () => {
   await access(new URL("../dist/cv.pdf", import.meta.url));
+  const builtHtml = await readFile(new URL("../dist/index.html", import.meta.url), "utf8");
+  assert.match(builtHtml, /href="\.\/cv\.pdf"/);
+  assert.doesNotMatch(builtHtml, /href="\.\/public\/cv\.pdf"/);
 });
